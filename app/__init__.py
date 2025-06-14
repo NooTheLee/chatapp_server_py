@@ -2,7 +2,7 @@ from flask import Flask
 from .config.config import Config
 from .data.db import db
 from flask_jwt_extended import JWTManager
-from .controllers.auth_controller import auth_bp
+from .controllers import register_all_blueprints
 
 
 def create_app():
@@ -12,5 +12,5 @@ def create_app():
     db.init_app(app)
     JWTManager(app)
 
-    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    register_all_blueprints(app)
     return app

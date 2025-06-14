@@ -4,7 +4,7 @@ from flask import current_app
 
 
 def generate_jwt(user):
-    secret = current_app.config["JWT_SCRET"]
+    secret = current_app.config["JWT_SECRET_KEY"]
     issuer = current_app.config["JWT_ISSUER"]
     audiance = current_app.config["JWT_AUDIENCE"]
     expires_in = int(current_app.config["JWT_EXPIRES_HOURS"])
