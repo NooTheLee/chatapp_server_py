@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
+from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+import os
+#
 from app.config import *
 from app.data.db import db
-from flask_jwt_extended import JWTManager
-import os
 
 jwt = JWTManager()
 
@@ -15,6 +17,16 @@ def create_app():
     envObject = DevelopmentConfig if env == DEVELOPMENT else ProductionConfig
     app.config.from_object(envObject)
 
+    #Dynamic CORS
+    origins = app.config.get('CORS_ORIGINS', ["http://localhost:4200"])
+    print("origins", origins)
+    CORS(
+        app,
+        origins=origins,
+        supports_credentials=True,
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"]
+    )
 
     db.init_app(app)
     JWTManager(app)

@@ -5,16 +5,16 @@ from datetime import datetime, UTC
 import uuid
 
 #
-from ..data import db
-from ..models import *
-from ..schemas.message_schema import *
-from ..schemas.chatroom_schema import ChatRoomResponseSchema
+from app.data import db
+from app.models import *
+from app.schemas.message_schema import *
+from app.schemas.chatroom_schema import ChatRoomResponseSchema, ChatRoomUserSchema
 
 message_bp = Blueprint("message_bp", __name__)
 
 
 @message_bp.route("/", methods=["GET"])
-def get_root():
+def index():
     return jsonify({"message": "Welcome to message API!"})
 
 
@@ -50,6 +50,10 @@ def create_message():
         )
         db.session.add(message)
         db.session.commit()
+
+        #Force load sender (User) before dump
+        db.session.refresh(message)
+        db.session.refresh(message.sender)
         return jsonify(MessageResponseSchema().dump(message)), 201
 
     except SQLAlchemyError as e:

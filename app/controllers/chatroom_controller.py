@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from datetime import datetime, UTC
+from datetime import datetime, UTC, timezone
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
 
@@ -54,7 +54,7 @@ def create_chatroom():
         return jsonify({"message": f"Cannot create chat room: {str(e)}"}), 500
 
 
-@chatroom_bp.route("/", methods=["GET"])
+@chatroom_bp.route("", methods=["GET"])
 @jwt_required()
 def get_all_chatrooms():
     try:
@@ -71,7 +71,8 @@ def get_all_chatrooms():
         sorted_rooms = sorted(
             rooms,
             key=lambda cr: max(
-                [m.created_at for m in cr.messages], default=datetime.min
+                [m.created_at for m in cr.messages], 
+                default=datetime.min.replace(tzinfo=timezone.utc)
             ),
             reverse=True,
         )

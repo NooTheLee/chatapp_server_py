@@ -12,3 +12,4 @@ class BaseConfig:
     JWT_AUDIENCE = os.getenv("JWT_AUDIENCE")
     JWT_EXPIRES_HOURS = os.getenv("JWT_EXPIRES_HOURS", 24)
     SECRET_KEY  = os.getenv("SECRET_KEY")
+    CORS_ORIGINS = [os.getenv("CORS_ORIGINS")]
