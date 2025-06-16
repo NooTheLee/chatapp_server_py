@@ -6,8 +6,8 @@ from ..data.db import db
 # Association table for N-N: User <-> ChatRoom
 user_chatroom = db.Table(
     "chat_room_users",
-    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True),
-    db.Column("chat_room_id", UUID(as_uuid=True), db.ForeignKey("chat_rooms.id"), primary_key=True)
+    db.Column("UsersId", UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True),
+    db.Column("ChatRoomsId", UUID(as_uuid=True), db.ForeignKey("chat_rooms.id"), primary_key=True)
 )
 
 class ChatRoom(db.Model):

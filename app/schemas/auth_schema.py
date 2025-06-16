@@ -1,7 +1,8 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
+from .convert_camel_schema import CamelCaseSchema
 
 
-class RegisterRequestSchema(Schema):
+class RegisterRequestSchema(CamelCaseSchema):
     username = fields.Str(required=True)
     email = fields.Email(required=True)
     password = fields.Str(required=True)
@@ -9,13 +10,13 @@ class RegisterRequestSchema(Schema):
     avatar_url = fields.Str(allow_none=True)
 
 
-class LoginRequestSchema(Schema):
+class LoginRequestSchema(CamelCaseSchema):
     username = fields.Str(allow_none=True)
     email = fields.Str(allow_none=True)
     password = fields.Str(required=True)
 
 
-class AuthResponseSchema(Schema):
+class AuthResponseSchema(CamelCaseSchema):
     id = fields.UUID()
     username = fields.Str()
     email = fields.Str()

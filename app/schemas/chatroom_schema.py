@@ -1,14 +1,15 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
+from .convert_camel_schema import CamelCaseSchema
 
 
-class CreateChatRoomRequestSchema(Schema):
+class CreateChatRoomRequestSchema(CamelCaseSchema):
     name = fields.Str(required=True)
     description = fields.Str(allow_none=True)
-    is_group = fields.Bool(required=False)
-    user_ids = fields.List(fields.UUID(), required=True)
+    isGroup = fields.Bool(required=False)
+    userIds = fields.List(fields.UUID(), required=True)
 
 
-class ChatRoomUserSchema(Schema):
+class ChatRoomUserSchema(CamelCaseSchema):
     id = fields.UUID()
     username = fields.Str()
     email = fields.Email()
@@ -18,7 +19,7 @@ class ChatRoomUserSchema(Schema):
     last_seen = fields.DateTime(allow_none=True)
 
 
-class ChatRoomMessageSchema(Schema):
+class ChatRoomMessageSchema(CamelCaseSchema):
     id = fields.UUID()
     content = fields.Str()
     message_type = fields.Int()
@@ -26,10 +27,10 @@ class ChatRoomMessageSchema(Schema):
     edited_at = fields.DateTime(allow_none=True)
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
-    sender = fields.Nested(ChatRoomUserSchema, attribute="user")
+    sender = fields.Nested(ChatRoomUserSchema, attribute="user", data_key="sender")
 
 
-class ChatRoomResponseSchema(Schema):
+class ChatRoomResponseSchema(CamelCaseSchema):
     id = fields.UUID()
     name = fields.Str()
     description = fields.Str(allow_none=True)
@@ -37,5 +38,6 @@ class ChatRoomResponseSchema(Schema):
     created_by = fields.UUID()
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
-    members = fields.Nested(ChatRoomUserSchema, many=True, attribute="user")
-    messages = fields.Nested(ChatRoomMessageSchema, many=True, attribute="user")
+    members = fields.Nested(ChatRoomUserSchema, many=True, attribute="users", data_key="members")
+    messages = fields.Nested(ChatRoomMessageSchema, many=True, attribute="messages", data_key="messages")
+
