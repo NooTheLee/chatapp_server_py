@@ -1,14 +1,20 @@
 from flask import Flask, jsonify
-from .config.config import Config
-from .data.db import db
+from app.config import *
+from app.data.db import db
 from flask_jwt_extended import JWTManager
+import os
 
 jwt = JWTManager()
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+
+    # setup env
+    env = os.getenv("FLASK_ENV", DEVELOPMENT)
+    envObject = DevelopmentConfig if env == DEVELOPMENT else ProductionConfig
+    app.config.from_object(envObject)
+
 
     db.init_app(app)
     JWTManager(app)
