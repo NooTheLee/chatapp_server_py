@@ -22,4 +22,4 @@ class MessageResponseSchema(CamelCaseSchema):
     edited_at = fields.DateTime(allow_none=True, )
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
-    sendor = fields.Nested(ChatRoomUserSchema, attribute="user", data_key="sender")
+    sender = ChatRoomUserSchema

@@ -23,7 +23,7 @@ class User(db.Model):
     )
 
     # Relationships (nếu đã định nghĩa Message và ChatRoom models)
-    messages = db.relationship("Message", back_populates="sender", lazy=True)
+    # messages = db.relationship("Message", backref="user", lazy=True)
     # chatrooms = db.relationship("ChatRoom", secondary="chat_room_users", backref="users")
 
     def __repr__(self):

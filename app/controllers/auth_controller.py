@@ -6,10 +6,10 @@ from marshmallow import ValidationError
 import uuid
 
 #
-from ..models.user import User
-from ..schemas.auth_schema import *
-from ..data.db import db
-from ..services.jwt_service import generate_jwt
+from app.models import User
+from app.schemas.auth_schema import *
+from app.data import db
+from app.services.jwt_service import generate_jwt
 
 
 auth_bp = Blueprint("auth", __name__)

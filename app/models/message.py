@@ -25,9 +25,9 @@ class Message(db.Model):
     )
 
     # Relationships
-    # user = db.relationship("User", backref="messages", lazy=True)
+    user = db.relationship("User", backref="messages", lazy=True)
     chatroom = db.relationship("ChatRoom", backref="messages", lazy=True)
-    sender = db.relationship("User", back_populates="messages", foreign_keys=[user_id])
+    # sender = db.relationship("User", back_populates="messages", foreign_keys=[user_id])
 
     def __repr__(self):
         return f"<Message {self.id} in room {self.chat_room_id}>"

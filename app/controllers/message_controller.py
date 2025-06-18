@@ -24,6 +24,7 @@ def create_message():
     try:
         data = CreateMessageRequestSchema().load(request.json)
         user_id = get_jwt_identity()
+        user = User.query.get(user_id)
 
         chat_room = ChatRoom.query.filter_by(id=data["chat_room_id"]).first()
         if not chat_room:
@@ -51,10 +52,10 @@ def create_message():
         db.session.add(message)
         db.session.commit()
 
-        #Force load sender (User) before dump
-        db.session.refresh(message)
-        db.session.refresh(message.sender)
-        return jsonify(MessageResponseSchema().dump(message)), 201
+        response_data = MessageResponseSchema().dump(message)
+        response_data['sender'] = ChatRoomUserSchema().dump(user)
+        
+        return jsonify(response_data), 201
 
     except SQLAlchemyError as e:
         db.session.rollback()
